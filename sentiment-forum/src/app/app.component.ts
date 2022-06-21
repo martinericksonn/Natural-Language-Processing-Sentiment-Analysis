@@ -42,10 +42,11 @@ export class AppComponent {
 
   formText(text: string) {
     var tokens = [];
-    tokens = text.split(' ');
+    var newText = text.replace(/[^a-zA-Z ]/g, '');
+    tokens = newText.split(' ');
 
-    var pos = 0;
-    var neg = 0;
+    var pos: number = 0.0;
+    var neg: number = 0.0;
 
     var tokenPos: string[] = [];
     var tokenNav: string[] = [];
@@ -61,8 +62,26 @@ export class AppComponent {
         neg++;
       }
     });
+
     console.log(tokenPos);
     console.log(tokenNav);
     console.log(pos + ' ' + neg);
+    console.log(pos - neg);
+
+    console.log(tokens.length);
+    var sentiCalc = ((pos - neg) / tokens.length) * 100;
+    console.log();
+
+    console.log(sentiCalc.toFixed(2));
+    console.log(this.sentiFeel(sentiCalc));
+  }
+
+  sentiFeel(value: number) {
+    if (value > 20) return 'Positve';
+    else if (value > 5) return 'Somewhat Positve';
+    else if (value >= 0) return 'Neutral';
+    else if (value > -5) return 'Somewhat Negative';
+    else if (value <= -10) return 'Negative';
+    else return '';
   }
 }
