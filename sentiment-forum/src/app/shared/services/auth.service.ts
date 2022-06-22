@@ -30,16 +30,23 @@ export class AuthService {
   }
 
   SignIn(email: string, password: string) {
+    console.log('asdsds');
     return this.afAuth
       .signInWithEmailAndPassword(email, password)
       .then((result) => {
+        console.log('zzzzzzzzzzzzzzzzzzzzzz');
         this.afAuth.authState.subscribe((user) => {
           if (user) {
+            console.log('home');
+
             this.router.navigate(['home']);
+          } else {
+            console.log('home not');
           }
         });
       })
       .catch((error) => {
+        console.log('asdsd');
         window.alert(error.message);
       });
   }

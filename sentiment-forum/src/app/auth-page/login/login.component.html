@@ -21,7 +21,7 @@
 
                 <div class="button">
                     <!-- Button is disabled(not clickable), if our LoginForm contains Validation Errors -->
-                    <button type="submit" mat-button (click)="authService.SignIn(userName.value, userPassword.value)">Login</button>
+                    <button type="button" mat-button (click)="authService.SignIn(userName.value, userPassword.value)">Login</button>
                 </div>
 
             </form>
