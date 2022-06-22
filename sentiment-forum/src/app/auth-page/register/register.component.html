@@ -1,1 +1,41 @@
-<p>register works!</p>
+<div>
+    <a [routerLink]="['../login']">Go to Login</a>
+    <mat-card>
+        <mat-card-title>Register</mat-card-title>
+
+        <mat-card-content>
+            <form>
+
+                <mat-form-field>
+                    <input type="email" matInput placeholder="Email" formControlName="email" #userEmail>
+                    <!-- Here we can display error messages/hints for the user, if one of the Validators adds an error to the email 
+           with the .touched check we only display the hints if the input was touched by the users -->
+
+
+                </mat-form-field>
+
+                <mat-form-field>
+                    <input type="text" matInput placeholder="Username" formControlName="username" #userName>
+
+                </mat-form-field>
+
+
+                <mat-form-field>
+                    <input type="password" matInput placeholder="Password" formControlName="password" #userPassword>
+
+                </mat-form-field>
+
+
+
+
+
+                <div class="button">
+                    <!-- Button is disabled(not clickable), if our RegisterForm contains Validation Errors -->
+                    <button type="submit" mat-button (click)="authService.SignUp( userName.value, userEmail.value, userPassword.value)">Register</button>
+                </div>
+
+            </form>
+        </mat-card-content>
+
+    </mat-card>
+</div>
