@@ -1,10 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { userInfo } from 'os';
 import { Observable } from 'rxjs';
-import { ForumPost } from 'src/model/post-model';
 import { AuthService } from '../shared/services/auth.service';
+import { Post } from '../shared/services/post';
 import { User } from '../shared/services/user';
 
 @Component({
@@ -23,6 +22,7 @@ export class HomeComponent implements OnInit {
   negativeWords: string[] = [];
   title = 'sentiment-forum';
   currentUser?: User;
+  posts?: Post[];
   sentimentText = '';
   sentimentScore = '';
 
@@ -33,14 +33,19 @@ export class HomeComponent implements OnInit {
     return o;
   }
 
+  getAllPost(): Observable<Post[]> {
+    return this.db.collection<Post>('post').valueChanges();
+  }
+
   ngOnInit() {
     var tempNegative: string[] = [];
     var tempPostive: string[] = [];
 
     this.getUser(this.authService.userUID!).subscribe((data) => {
-      console.log(data[0]);
-
       this.currentUser = data[0];
+    });
+    this.getAllPost().subscribe((data) => {
+      this.posts = data;
     });
     this.http
       .get('assets/positive-words.txt', {
@@ -103,7 +108,13 @@ export class HomeComponent implements OnInit {
     this.sentimentText = this.sentiFeel(sentiCalc);
     this.sentimentScore = sentiCalc.toFixed(2);
 
-    this.addForum({ title: title, body: text, userame: this.currentUser?.uid });
+    this.addForum({
+      title: title,
+      body: text,
+      username: this.currentUser?.username,
+      sentiment_text: this.sentimentText,
+      sentiment_value: this.sentimentScore,
+    });
   }
 
   sentiFeel(value: number) {
@@ -115,7 +126,7 @@ export class HomeComponent implements OnInit {
     else return '';
   }
 
-  addForum(post: ForumPost) {
+  addForum(post: Post) {
     try {
       this.db.collection('post').add(post);
       return true;

@@ -1,3 +1,11 @@
+<div *ngFor="let content of posts">
+    <p>{{content.title}}</p>
+    <p>{{content.body}}</p>
+    <p>{{content.username}}</p>
+    <p>{{content.sentiment_text}}</p>
+    <p>{{content.sentiment_value}}</p>
+</div>
+
 <button type="button" mat-button (click)="authService.SignOut()">Logout</button>
 
 <mat-form-field appearance="fill">

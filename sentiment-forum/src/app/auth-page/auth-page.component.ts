@@ -12,22 +12,12 @@ export class AuthPageComponent implements OnInit {
   loading = false;
   submitted = false;
 
-  constructor() {
-    // redirect to home if already logged in
-  }
+  constructor() {}
 
-  ngOnInit() {
-    // get return url from route parameters or default to '/'
-  }
-
-  // convenience getter for easy access to form fields
+  ngOnInit() {}
 
   onSubmit() {
     this.submitted = true;
-
-    // reset alerts on submit
-
-    // stop here if form is invalid
 
     this.loading = true;
   }
