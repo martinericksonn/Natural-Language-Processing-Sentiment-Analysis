@@ -1,11 +1,16 @@
 <button type="button" mat-button (click)="authService.SignOut()">Logout</button>
 
 <mat-form-field appearance="fill">
+    <mat-label>Title</mat-label>
+    <input matInput #title>
+</mat-form-field>
+
+<mat-form-field appearance="fill">
     <mat-label>Textarea</mat-label>
     <textarea matInput #text></textarea>
 </mat-form-field>
 
-<button type="button" mat-button (click)="formText(text.value)">submit</button>
+<button type="button" mat-button (click)="formText(text.value,title.value)">submit</button>
 
 <p>{{sentimentText}}</p>
 <p>{{sentimentScore}}</p>

@@ -31,7 +31,7 @@
 
                 <div class="button">
                     <!-- Button is disabled(not clickable), if our RegisterForm contains Validation Errors -->
-                    <button type="submit" mat-button (click)="authService.SignUp( userName.value, userEmail.value, userPassword.value)">Register</button>
+                    <button type="button" mat-button (click)="authService.SignUp( userName.value, userEmail.value, userPassword.value)">Register</button>
                 </div>
 
             </form>

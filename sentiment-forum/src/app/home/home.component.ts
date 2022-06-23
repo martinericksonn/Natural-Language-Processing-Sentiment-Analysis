@@ -1,6 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { userInfo } from 'os';
+import { Observable } from 'rxjs';
+import { ForumPost } from 'src/model/post-model';
 import { AuthService } from '../shared/services/auth.service';
+import { User } from '../shared/services/user';
 
 @Component({
   selector: 'app-home',
@@ -8,19 +13,35 @@ import { AuthService } from '../shared/services/auth.service';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-  constructor(private http: HttpClient, public authService: AuthService) {}
+  constructor(
+    private db: AngularFirestore,
+    private http: HttpClient,
+    public authService: AuthService
+  ) {}
 
   postiveWords: string[] = [];
   negativeWords: string[] = [];
   title = 'sentiment-forum';
-
+  currentUser?: User;
   sentimentText = '';
   sentimentScore = '';
+
+  getUser(uid: string): Observable<User[]> {
+    const o = this.db
+      .collection<User>('user', (ref) => ref.where('uid', '==', uid))
+      .valueChanges();
+    return o;
+  }
 
   ngOnInit() {
     var tempNegative: string[] = [];
     var tempPostive: string[] = [];
 
+    this.getUser(this.authService.userUID!).subscribe((data) => {
+      console.log(data[0]);
+
+      this.currentUser = data[0];
+    });
     this.http
       .get('assets/positive-words.txt', {
         responseType: 'text',
@@ -44,7 +65,7 @@ export class HomeComponent implements OnInit {
       });
   }
 
-  formText(text: string) {
+  formText(text: string, title: string) {
     var tokens = [];
     var newText = text.replace(/[^a-zA-Z ]/g, '');
     tokens = newText.split(' ');
@@ -81,6 +102,8 @@ export class HomeComponent implements OnInit {
 
     this.sentimentText = this.sentiFeel(sentiCalc);
     this.sentimentScore = sentiCalc.toFixed(2);
+
+    this.addForum({ title: title, body: text, userame: this.currentUser?.uid });
   }
 
   sentiFeel(value: number) {
@@ -91,4 +114,17 @@ export class HomeComponent implements OnInit {
     else if (value <= -10) return 'Negative';
     else return '';
   }
+
+  addForum(post: ForumPost) {
+    try {
+      this.db.collection('post').add(post);
+      return true;
+    } catch (error) {
+      console.log(error);
+    }
+    console.log(post);
+    return;
+  }
 }
+
+//Not added

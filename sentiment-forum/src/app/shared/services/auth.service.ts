@@ -34,14 +34,11 @@ export class AuthService {
     return this.afAuth
       .signInWithEmailAndPassword(email, password)
       .then((result) => {
-        console.log('zzzzzzzzzzzzzzzzzzzzzz');
         this.afAuth.authState.subscribe((user) => {
           if (user) {
-            console.log('home');
-
+            console.log(user.uid);
             this.router.navigate(['home']);
           } else {
-            console.log('home not');
           }
         });
       })
@@ -75,16 +72,15 @@ export class AuthService {
   }
 
   SetUserData(user: any, user_name: string) {
+    console.log(user.uid);
     const userRef: AngularFirestoreDocument<any> = this.afs.doc(
-      `UserAccounts/${user.uid}`
+      `user/${user.uid}`
     );
     const userData: User = {
       uid: user.uid,
       email: user.email,
       username: user_name,
     };
-
-    console.log(userData);
 
     return userRef.set(userData, {
       merge: true,
