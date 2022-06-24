@@ -1,41 +1,31 @@
-<div>
-    <a [routerLink]="['../login']">Go to Login</a>
-    <mat-card>
-        <mat-card-title>Register</mat-card-title>
-
-        <mat-card-content>
-            <form>
-
-                <mat-form-field>
+<div class="mainContent  ">
+    <div class=" login">
+        <div class="actions" mat-dialog-action [align]="'center'">
+            <h2 class="active"> Sign Up </h2>
+            <form class="inputs">
+                <mat-form-field appearance="outline">
+                    <mat-label>Email</mat-label>
                     <input type="email" matInput placeholder="Email" formControlName="email" #userEmail>
-                    <!-- Here we can display error messages/hints for the user, if one of the Validators adds an error to the email 
-           with the .touched check we only display the hints if the input was touched by the users -->
-
-
+                    <mat-icon matSuffix>perm_identity</mat-icon>
                 </mat-form-field>
-
-                <mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>Username</mat-label>
                     <input type="text" matInput placeholder="Username" formControlName="username" #userName>
-
+                    <mat-icon matSuffix>store</mat-icon>
                 </mat-form-field>
-
-
-                <mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>Password</mat-label>
                     <input type="password" matInput placeholder="Password" formControlName="password" #userPassword>
-
+                    <mat-icon matSuffix>class</mat-icon>
                 </mat-form-field>
-
-
-
-
-
-                <div class="button">
-                    <!-- Button is disabled(not clickable), if our RegisterForm contains Validation Errors -->
-                    <button type="button" mat-button (click)="authService.SignUp( userName.value, userEmail.value, userPassword.value)">Register</button>
-                </div>
-
             </form>
-        </mat-card-content>
+        </div>
+        <div class="actions" mat-dialog-action [align]="'center'">
+            <button mat-raised-button color="warn" (click)="authService.SignIn(userName.value, userPassword.value)">Sign
+                in</button>
 
-    </mat-card>
+            <button mat-raised-button color="warn" (click)="nav('login')">BACK TO LOGIN</button>
+            <!-- <a [routerLink]="['../login']">Go to Register</a> -->
+        </div>
+    </div>
 </div>
