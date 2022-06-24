@@ -21,8 +21,8 @@
             </form>
         </div>
         <div class="actions" mat-dialog-action [align]="'center'">
-            <button mat-raised-button color="warn" (click)="authService.SignIn(userName.value, userPassword.value)">Sign
-                in</button>
+            <button mat-raised-button color="warn" (click)="authService.SignUp(userName.value,userEmail.value , userPassword.value)">Sign
+                Up</button>
 
             <button mat-raised-button color="warn" (click)="nav('login')">BACK TO LOGIN</button>
             <!-- <a [routerLink]="['../login']">Go to Register</a> -->
